@@ -1,4 +1,6 @@
 @import "resets"
+@import "vars"
+@import "mixins"
 @import "colors"
 
 /*===========================
@@ -32,4 +34,231 @@ body
   -moz-osx-font-smoothing: grayscale
   line-height: 1.125rem
   color: $white
-  background-color: $black-dark
+  background-color: $crash
+  
+header
+  position: fixed
+  top: 0
+  left: 0
+  width: 100%
+  height: 30px
+  color: $white
+  background: $black
+  z-index: 5000
+
+.nav-trigger
+  display: grid
+  grid-template-columns: repeat(3, 1fr)
+  grid-gap: 2px
+  justify-items: center
+  align-items: center
+  position: absolute
+  top: 5px
+  left: 5px
+  width: 20px
+  height: 20px
+  cursor: pointer
+  z-index: 1
+  &:hover
+    .nav-trigger-point
+      background: $crash
+
+.nav-trigger-point
+  width: 100%
+  height: 100%
+  background: $white
+  animation($animation_time, $animation_time_delay)
+
+.nav-is-open .nav-trigger-point
+  background: $crash
+
+.active-window-title
+  position: absolute
+  top: 5px
+  left: 40px
+  width: auto
+  height: 20px
+  font-size: 0.825rem
+  line-height: 1.4rem
+  z-index: 1
+
+.header-tools
+  display: grid
+  grid-template-columns: 25px 48px 20px auto
+  grid-gap: 15px
+  justify-items: end
+  align-items: center
+  position: absolute
+  top: 5px
+  right: 5px
+  width: auto
+  height: 20px
+  padding-left: 15px
+  background: $black
+  z-index: 100
+
+.main-chat
+  position: relative
+  width: 25px
+  height: 20px
+  cursor: pointer
+
+.main-chat-icon
+  position: absolute
+  top: 3px
+  left: 0
+  width: 14px
+  height: 14px
+  background: url("../img/mail-chat.png") center no-repeat
+  background-size: cover
+
+.main-chat-count-new
+  display: none
+  position: absolute
+  bottom: 0
+  left: 10px
+  width: 13px
+  height: 13px
+  border: 1px solid $black
+  border-radius: 50%
+  font-size: .6rem
+  line-height: .9rem
+  text-align: center
+  color: $white
+  background: $blue
+
+.new-message-arrived .main-chat-count-new
+  display: block
+  animation-duration: 3s
+  animation-name: message-arrived
+  animation-iteration-count: infinite
+
+@keyframes message-arrived
+  from
+    bottom: 0
+    left: 10px
+    width: 13px
+    height: 13px
+    font-size: .6rem
+    line-height: .9rem
+  to
+    bottom: -1px
+    left: 9px
+    width: 15px
+    height: 15px
+    font-size: .7rem
+    line-height: 1rem
+
+.lang-select-links
+  width: 48px
+  font-size: .825rem
+  div
+    display: inline
+    width: 20px
+    cursor: pointer
+    &.left
+      padding-right: 8px
+      border-right: 1px solid $white
+    &.active
+      font-weight: bold
+
+.volume-trigger
+  width: 14px
+  height: 14px
+  background: url("../img/volume-up.png") center no-repeat
+  background-size: cover
+  cursor: pointer
+
+.volume-trigger.volume-off
+  background: url("../img/volume-off.png") center no-repeat
+  background-size: cover
+
+main
+  position: fixed
+  top: 0
+  left: 0
+  width: 100%
+  height: 100%
+  overflow: hidden
+  z-index: 1
+.bg
+  display: grid
+  grid-template-columns: 1fr
+  justify-items: center
+  align-items: center
+  position: fixed
+  top: 0
+  left: 0
+  width: 100%
+  height: 100%
+  z-index: 1
+.bg-icon
+  position: relative
+  width: 180px
+  height: 144px
+  margin-bottom: 15px
+  background: url("../img/GoodCrashIconBig.png") center no-repeat
+  background-size: cover
+  opacity: .3
+
+.folders
+  display: grid
+  grid-template-rows: repeat(2, 1fr)
+  grid-gap: 15px
+  justify-items: center
+  align-items: center
+  position: absolute
+  top: 60px
+  left: 5px
+  width: 50px
+  height: auto
+  z-index: 5000
+
+.my-games-folder,
+.my-shop-folder
+  width: auto
+  height: auto
+  font-size: .825rem
+  text-align: center
+  cursor: pointer
+  a
+    color: $white
+    text-decoration: none
+
+.my-games-icon
+  width: 40px
+  height: 41px
+  margin: 0 auto
+  background: url("../img/player-folder.png") center no-repeat
+  background-size: cover
+
+.my-games-title,
+.my-shop-title
+  margin-top: 5px
+
+.my-shop-icon
+  width: 40px
+  height: 40px
+  margin: 0 auto
+  background: url("../img/shop.png") center no-repeat
+  background-size: cover
+
+.say-hello
+  display: grid
+  grid-template-columns: 1fr
+  justify-items: start
+  align-items: center
+  position: absolute
+  top: 0
+  left: 50%
+  width: 50%
+  height: 100%
+  z-index: 4000
+  div
+    text-transform: uppercase
+    font-size: 2.475rem
+    line-height: 3.3rem
+    span.say-hello-indie
+      display: inline
+      color: $blue
+      background: $black

@@ -1,5 +1,5 @@
 doctype html
-html
+html(lang="en")
   head
     meta(charset="utf-8")
     meta(name="viewport" content="width=device-width, initial-scale=1.0")
@@ -19,4 +19,49 @@ html
     <![endif]-->
     title GoodCrash | Indie games developer
     
-  body(id='body')
+  body(id="body")
+    header
+      div(class="nav-trigger")
+        - var countPoints = new Array(9);
+        each i in countPoints
+          div(class="nav-trigger-point")
+
+      div(class="active-window-title") Home
+
+      div(class="header-tools")
+        div(class="main-chat")
+          div(class="main-chat-icon")
+          div(class="main-chat-count-new") 0
+
+        div(class="lang-select-links")
+          div(class="lang-selectors ru-lang left") ru
+          div(class="lang-selectors en-lang") en
+
+        div(class="volume-trigger")
+
+        div(class="data-time")
+
+    main(id="main")
+      div(class="folders")
+        div(class="my-games-folder")
+          a(href="my-games" class="nav-link")
+            div(class="my-games-icon")
+            div(class="my-games-title") My Games
+
+        div(class="my-shop-folder")
+          a(href="my-shop" class="nav-link")
+            div(class="my-shop-icon")
+            div(class="my-shop-title") My Shop
+
+      div(class="say-hello")
+        div
+          span(class="say-hello-ctx") Hello! My name is Aleksandr [GoodCrash]. I'm an
+          br
+          span(class="say-hello-indie") indie game
+          br
+          span(class="say-hello-developer") developer
+          br
+          span(class="cursor") |
+
+      div(class="bg")
+        div(class="bg-icon")
