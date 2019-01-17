@@ -35,6 +35,12 @@ body
   line-height: 1.125rem
   color: $white
   background-color: $crash
+  &[lang='ru']
+    .ru-lang
+      font-weight: bold
+  &[lang='en']
+    .en-lang
+      font-weight: bold
   
 header
   position: fixed
@@ -159,8 +165,6 @@ header
     &.left
       padding-right: 8px
       border-right: 1px solid $white
-    &.active
-      font-weight: bold
 
 .volume-trigger
   width: 14px

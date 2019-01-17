@@ -2,6 +2,9 @@
 
 export function getDOM () {
   return {
-    dataTimeEl: document.querySelector('.data-time')
+    body: document.getElementById('body'),
+    dataTimeEl: document.querySelector('.data-time'),
+    langSelectors: document.querySelectorAll('.lang-selectors'),
+    gettext: document.getElementsByName('i18n')
   }
 }
