@@ -41,7 +41,31 @@ body
   &[lang='en']
     .en-lang
       font-weight: bold
-  
+
+.cursor
+  padding: 0 .2rem
+  font-weight: bold
+  color: $white
+  background-color: $white
+  animation-name: print
+  animation-duration: 2s
+  animation-iteration-count: infinite
+
+.load .cursor
+  display: none
+  animation-name: none
+
+@keyframes print
+  25%
+    background-color: $black
+    color: $black
+  50%
+    background-color: $white
+    color: $white
+  75%
+    background-color: $black
+    color: $black
+
 header
   position: fixed
   top: 0
@@ -79,6 +103,7 @@ header
   background: $crash
 
 .active-window-title
+  display: block
   position: absolute
   top: 5px
   left: 40px
@@ -180,6 +205,10 @@ header
 .data-time
   font-size: 0.825rem
 
+@media only screen and (max-width: $mobile_very_small)
+  .active-window-title
+    display: none
+
 main
   position: fixed
   top: 0
@@ -221,8 +250,7 @@ main
   height: auto
   z-index: 5000
 
-.my-games-folder,
-.my-shop-folder
+.my-games-folder
   width: auto
   height: auto
   font-size: .825rem
@@ -239,16 +267,8 @@ main
   background: url("../img/player-folder.png") center no-repeat
   background-size: cover
 
-.my-games-title,
-.my-shop-title
+.my-games-title
   margin-top: 5px
-
-.my-shop-icon
-  width: 40px
-  height: 40px
-  margin: 0 auto
-  background: url("../img/shop.png") center no-repeat
-  background-size: cover
 
 .say-hello
   display: grid
@@ -260,12 +280,39 @@ main
   left: 50%
   width: 50%
   height: 100%
-  z-index: 4000
+  z-index: 2
   div
-    text-transform: uppercase
-    font-size: 2.475rem
-    line-height: 3.3rem
+    font-size: 3.3rem
+    line-height: 4.3rem
+    padding-right: 80px
     span.say-hello-indie
       display: inline
       color: $blue
       background: $black
+
+@media only screen and (max-width: $mobile_large)
+  .say-hello
+    left: 20%
+    width: 60%
+    div
+      padding-right: 0
+
+@media only screen and (max-width: $mobile_middle)
+  .say-hello
+    left: 0
+    width: 100%
+    div
+      padding: 0 80px
+      font-size: 2.475rem
+      line-height: 3.3rem
+
+@media only screen and (max-width: $mobile_small)
+  .say-hello
+    div
+      font-size: 1.65rem
+      line-height: 2.3rem
+
+@media only screen and (max-width: $mobile_very_small)
+  .say-hello
+    div
+      padding: 0 65px

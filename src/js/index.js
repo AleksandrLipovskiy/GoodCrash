@@ -5,12 +5,12 @@ import '../css/style.styl';
 import { App } from './App';
 
 window.onload = function() {
-  const app = new App;
+  const app = new App(false);
 
   // change lang when clicl lang selector
   for (let langSelector of app.DOM.langSelectors) {
     langSelector.onclick = function() {
-      if (app.isLoaded) app.clickLangSelector(this);
+      if (app._isLoaded) app.clickLangSelector(this);
     }
   }
 }
