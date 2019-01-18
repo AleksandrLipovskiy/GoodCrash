@@ -12,12 +12,9 @@ export class App {
     this.DOM = getDOM();
     this.lang = getCurrentLang();
     this.timePrintText = 60;
-
     this.messenger = new Messenger(this);
-
     this._isLoaded = false;
     this._isSoundVolue = true;
-
     this.init();
   }
 

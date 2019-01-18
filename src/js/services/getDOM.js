@@ -10,8 +10,12 @@ export function getDOM () {
     sayHelloDev: document.querySelector('.say-hello-dev'),
     langSelectors: document.querySelectorAll('.lang-selectors'),
     gettext: document.getElementsByName('i18n'),
-    chatIcon : document.querySelector('.main-chat'),
-    chatCount : document.querySelector('.main-chat-count-new'),
-    messegeBody: document.querySelector('.messanger-message-body')
+    chatIcon: document.querySelector('.main-chat'),
+    chatCount: document.querySelector('.main-chat-count-new'),
+    messengerClose: document.querySelector('.messenger-header-close'),
+    messengerBody: document.querySelector('.messenger-body'),
+    messengerMessage: document.querySelector('.messenger-message-body'),
+    messengerInput: document.getElementById('messenger'),
+    messengerBtn: document.querySelector('.messenger-send-btn')
   }
 }

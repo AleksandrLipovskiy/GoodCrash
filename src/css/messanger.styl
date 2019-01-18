@@ -1,4 +1,4 @@
-.messanger
+.messenger
   display: none
   position: fixed
   top: 40px
@@ -14,10 +14,10 @@
   box-shadow(0, 1px, 3px, $black)
   z-index: 8000
 
-.messanger-open .messanger
+.messenger-open .messenger
   display: block
 
-.messanger-header
+.messenger-header
   position: absolute
   top: 0
   left: 0
@@ -25,7 +25,7 @@
   height: 30px
   border-bottom: 1px solid $smoky
 
-.messanger-header-title
+.messenger-header-title
   position: absolute
   top: 0
   left: 0
@@ -35,7 +35,7 @@
   font-size: 0.825rem
   line-height: 0.825rem
 
-.messanger-header-close
+.messenger-header-close
   position: absolute
   top: 0
   right: 0
@@ -48,7 +48,7 @@
   &:hover
     background: $red
 
-.messanger-header-close-icon
+.messenger-header-close-icon
   position: absolute
   top: 50%
   left: 50%
@@ -69,7 +69,7 @@
   &::after
     transform(-50%, 0, 45deg)
 
-.messanger-body
+.messenger-body
   position: absolute
   top: 30px
   left: 0
@@ -80,34 +80,35 @@
   overflow: hidden
   overflow-y: auto
 
-.messanger-message
+.messenger-message-box
   position: relative
   width: 100%
   height: auto
-  margin-bottom: 10px
+  margin: 5px 0
 
-.messanger-message-ctx
+.messenger-message-ctx
   position: relative
   width: 80%
   height: auto
   padding: 10px
-  background: $gray
   overflow: hidden
   &.you
     margin-left: 20%
+    background: $white
 
-.messanger-message-author
+.messenger-message-author
   position: relative
   width: 100%
   height: auto
   font-size: .7rem
   font-weight: bold
 
-.messanger-message-body
+.messenger-message-body
   position: relative
   width: 100%
   margin-top: 10px
-  line-height: 1.4rem
+  font-size: 0.825rem
+  line-height: 1.25rem
 
 .animate-pen
   display: block
@@ -136,7 +137,7 @@
   width: 12px
   height: 12px
 
-.messanger-send
+.messenger-send
   position: absolute
   bottom: 0
   left: 0
@@ -145,13 +146,13 @@
   padding: 10px
   border-top: 1px solid $smoky
 
-.messanger-send-input
+.messenger-send-input
   position: relative
   width: 100%
   height: 110px
 
 textarea
-  &#messanger
+  &#messenger
     width: 100%
     height: 100%
     padding: 10px
@@ -159,7 +160,7 @@ textarea
     resize: none
     border: 1px solid $smoky
 
-.messanger-send-btn
+.messenger-send-btn
   position: absolute
   bottom: 10px
   left: 10px

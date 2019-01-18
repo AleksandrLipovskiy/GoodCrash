@@ -9,9 +9,17 @@ window.onload = function() {
   const app = new App();
 
   document.onclick = () => {
-    if (app._isLoaded && !app.messenger.isViewedFirstMessege) {
-      app.messenger.sendFirstMessege();
+    if (app.isLoaded && !app.messenger.isSendedFirstMessage) {
+      app.messenger.sendFirstMessage();
     }
+  }
+
+  app.DOM.chatIcon.onclick = () => {
+    if (app.isLoaded && app.messenger.isSendedFirstMessage) app.messenger.openMessenger();
+  }
+
+  app.DOM.messengerClose.onclick = () => {
+    if (app.isLoaded && app.messenger.isSendedFirstMessage) app.messenger.closeMessenger();
   }
 
   app.DOM.volumeTrigger.onclick = function() {
@@ -21,7 +29,7 @@ window.onload = function() {
   // change lang when clicl lang selector
   for (let langSelector of app.DOM.langSelectors) {
     langSelector.onclick = function() {
-      if (app._isLoaded) app.clickLangSelector(this);
+      if (app.isLoaded) app.clickLangSelector(this);
     }
   }
 }
