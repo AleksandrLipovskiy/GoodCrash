@@ -5,14 +5,18 @@ import { runClock } from './services/clock';
 import { getCurrentLang, changeLang } from './services/i18n';
 import { locale } from './gettext/locale';
 import * as animate from './services/animate';
+import { Messenger } from './models/Messenger';
 
 export class App {
-  constructor(isLoaded) {
-    this._isLoaded = isLoaded;
-
+  constructor() {
     this.DOM = getDOM();
     this.lang = getCurrentLang();
     this.timePrintText = 60;
+
+    this.messenger = new Messenger(this);
+
+    this._isLoaded = false;
+    this._isSoundVolue = true;
 
     this.init();
   }
@@ -23,6 +27,14 @@ export class App {
 
   set isLoaded (value) {
     this._isLoaded = value;
+  }
+
+  get isSoundVolue () {
+    return this._isSoundVolue;
+  }
+
+  set isSoundVolue (value) {
+    this._isSoundVolue = value;
   }
 
   init () {
@@ -40,6 +52,11 @@ export class App {
   clickLangSelector (langSelector) {
     this.lang = langSelector.textContent;
     changeLang(this.DOM.body, this.lang, this.DOM.gettext);
+  }
+
+  ofOnSound (el) {
+    el.setAttribute('volume', !this.isSoundVolue);
+    this.isSoundVolue = !this.isSoundVolue;
   }
 
   sayHello () {

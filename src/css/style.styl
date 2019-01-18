@@ -198,10 +198,9 @@ header
   background: url("../img/volume-up.png") center no-repeat
   background-size: cover
   cursor: pointer
-
-.volume-trigger.volume-off
-  background: url("../img/volume-off.png") center no-repeat
-  background-size: cover
+  &[volume="false"]
+    background: url("../img/volume-off.png") center no-repeat
+    background-size: cover
 
 .data-time
   font-size: 0.825rem
