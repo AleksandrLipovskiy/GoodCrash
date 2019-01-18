@@ -14,5 +14,7 @@ export const ru = {
   },
   "main hello": "Привет! Я Aleks [GoodCrash]. И я ",
   "main indie": "indie game ",
-  "main dev": "разработчик"
+  "main dev": "разработчик",
+  "messages": "Сообщения",
+  "send": "Отправить"
 }

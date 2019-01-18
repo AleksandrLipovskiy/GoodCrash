@@ -14,5 +14,7 @@ export const en = {
   },
   "main hello": "Hello! I'm Aleks [GoodCrash]. And I'm an ",
   "main indie": "indie game ",
-  "main dev": "developer"
+  "main dev": "developer",
+  "messages": "Messages",
+  "send": "Send"
 }
