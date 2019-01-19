@@ -1,6 +1,9 @@
 export const ru = {
   "home": "Главная",
   "my games": "Мои игры",
+  "about me": "Обо мне",
+  "you can write": "можно писать мне",
+  "i'm social": "я в соц сетях",
   "main": {
     "hello": {
       "0": "Привет! Я Aleks [GoodCrash]. И я "

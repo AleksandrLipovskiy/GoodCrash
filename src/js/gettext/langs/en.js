@@ -1,6 +1,9 @@
 export const en = {
   "home": "Home",
   "my games": "My Games",
+  "about me": "About Me",
+  "you can write": "you can write",
+  "i'm social": "i'm social",
   "main": {
     "hello": {
       "0": "Hello! I'm Aleks [GoodCrash]. And I'm an "

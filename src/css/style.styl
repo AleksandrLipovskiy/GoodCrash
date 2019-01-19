@@ -3,6 +3,7 @@
 @import "mixins"
 @import "colors"
 @import "messanger"
+@import "nav"
 
 /*===========================
 
@@ -42,6 +43,9 @@ body
   &[lang='en']
     .en-lang
       font-weight: bold
+
+a
+  animation($animation_time, $animation_time_delay)
 
 .cursor
   padding: 0 .2rem
