@@ -46,6 +46,16 @@ export class App {
     }
   }
 
+  openCloseNav() {
+    this.DOM.body.classList.toggle('nav-is-open');
+
+    if (this.DOM.body.classList.contains('nav-is-open')) {
+      this.DOM.main.onclick = () => {
+        this.DOM.body.classList.remove('nav-is-open');
+      }
+    }
+  }
+
   clickLangSelector (langSelector) {
     this.lang = langSelector.textContent;
     changeLang(this.DOM.body, this.lang, this.DOM.gettext);

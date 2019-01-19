@@ -3,6 +3,8 @@
 export function getDOM () {
   return {
     body: document.getElementById('body'),
+    main: document.getElementById('main'),
+    navTrigger : document.querySelector('.nav-trigger'),
     dataTimeEl: document.querySelector('.data-time'),
     volumeTrigger: document.querySelector('.volume-trigger'),
     sayHelloHello: document.querySelector('.say-hello-hello'),

@@ -7,6 +7,7 @@ export class Messenger {
     this.app = app;
     this.gettext = locale[app.lang]["messenger"];
     this.rington = new Audio('../../audio/new-message.mp3');
+    this.i = 0;
     this._isSendedFirstMessage = false;
     this._isFirstAnswer = true;
   }
@@ -78,14 +79,13 @@ export class Messenger {
 
       if (value != '') this._sendMessageFromUser(value);
       this.app.DOM.messengerInput.value = '';
-
-      this._goodCrashAnswers();
     }
   }
 
   _sendMessageFromUser (value) {
     let message = this._createNewMessage('you', this._validValue(value));
     this._viewNewMessage(message);
+    this._goodCrashAnswers();
   }
 
   _goodCrashAnswers () {
@@ -122,9 +122,11 @@ export class Messenger {
   }
 
   _getAnswresMessageValue () {
-    let i = parseInt(Math.random() * 8);
+    let value = this.isFirstAnswer ? this.gettext["first message"] : this.gettext["second message"][this.i];
+    if (!this.isFirstAnswer && this.i < 8) this.i += 1;
+    if (this.i == 8) this.i = 0;
 
-    return this.isFirstAnswer ? this.gettext["first message"] : this.gettext["second message"][i];
+    return value;
   }
 
   _createNewMessage (author, value) {
