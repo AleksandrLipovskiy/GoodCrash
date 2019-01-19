@@ -8,6 +8,7 @@ export class Messenger {
     this.gettext = locale[app.lang]["messenger"];
     this.rington = new Audio('../../audio/new-message.mp3');
     this._isSendedFirstMessage = false;
+    this._isFirstAnswer = true;
   }
 
   get isSendedFirstMessage () {
@@ -18,10 +19,17 @@ export class Messenger {
     this._isSendedFirstMessage = value;
   }
 
+  get isFirstAnswer () {
+    return this._isFirstAnswer;
+  }
+
+  set isFirstAnswer (value) {
+    this._isFirstAnswer = value;
+  }
+
   openMessenger () {
     this._decreaseAmountInIcon();
     this._messegerWindow();
-
     this._startDialogue();
   }
 
@@ -33,7 +41,6 @@ export class Messenger {
     this._playRigton();
     this._greetingFromGoodCrash();
     this._increaseAmountInIcon(1);
-
     this.isSendedFirstMessage = true;
   }
 
@@ -70,14 +77,54 @@ export class Messenger {
       let value = this.app.DOM.messengerInput.value;
 
       if (value != '') this._sendMessageFromUser(value);
-
       this.app.DOM.messengerInput.value = '';
+
+      this._goodCrashAnswers();
     }
   }
 
   _sendMessageFromUser (value) {
     let message = this._createNewMessage('you', this._validValue(value));
     this._viewNewMessage(message);
+  }
+
+  _goodCrashAnswers () {
+    this._startAnimateAnswer();
+
+    setTimeout(() => {
+      this._stopAnimateAnswer();
+      this._viewNewMessage(this._getAnswresMessage());
+
+      if (this.isFirstAnswer) this.isFirstAnswer = false;
+    }, 2000);
+  }
+
+  _startAnimateAnswer () {
+    let elsClases = ['animate-box', 'animate-pen', 'animate-dotted'];
+    let els = [];
+
+    this._createDOMElements(els, elsClases);
+
+    els['animate-dotted'].textContent = '...';
+
+    els['animate-box'].appendChild(els['animate-pen']);
+    els['animate-box'].appendChild(els['animate-dotted']);
+
+    this._viewNewMessage(els['animate-box']);
+  }
+
+  _stopAnimateAnswer () {
+    document.querySelector('.messenger-message-animate-box').remove();
+  }
+
+  _getAnswresMessage () {
+    return this._createNewMessage('GoodCrash', this._getAnswresMessageValue());
+  }
+
+  _getAnswresMessageValue () {
+    let i = parseInt(Math.random() * 8);
+
+    return this.isFirstAnswer ? this.gettext["first message"] : this.gettext["second message"][i];
   }
 
   _createNewMessage (author, value) {
@@ -99,7 +146,7 @@ export class Messenger {
   }
 
   _fillMessageWithContent (els, author, value) {
-    els['ctx'].classList.add(author);
+    if (author == 'you') els['ctx'].classList.add(author);
     els['author'].textContent = author;
     els['body'].textContent = value;
   }
