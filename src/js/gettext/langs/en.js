@@ -2,7 +2,7 @@ export const en = {
   "home": "Home",
   "my games": "My Games",
   "about me": "About Me",
-  "you can write": "you can write",
+  "my email": "my email",
   "i'm social": "i'm social",
   "main": {
     "hello": {
