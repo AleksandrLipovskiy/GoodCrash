@@ -36,6 +36,14 @@ window.onload = function() {
       if (app.isLoaded) app.clickLangSelector(this);
     }
   }
+
+  // navigation when click nav-links
+  for (let link of app.DOM.navLinks) {
+    link.onclick = function(event) {
+      event.preventDefault();
+      app.navigate(this.getAttribute('href'));
+    }
+  }
 }
 
 if (process.env.NODE_ENV !== 'production') {

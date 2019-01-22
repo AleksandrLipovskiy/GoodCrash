@@ -33,5 +33,6 @@ export const en = {
   "main indie": "indie game ",
   "main dev": "developer",
   "messages": "Messages",
-  "send": "Send"
+  "send": "Send",
+  "error load": "Something really went wrong, but I'm already working on it"
 }

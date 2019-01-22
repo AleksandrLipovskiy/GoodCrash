@@ -1,6 +1,7 @@
 'use strict';
 
 import { getDOM } from './services/getDOM';
+import { navigation } from './services/navigation';
 import { runClock } from './services/clock';
 import { getCurrentLang, changeLang } from './services/i18n';
 import { locale } from './gettext/locale';
@@ -38,6 +39,10 @@ export class App {
     runClock(this.DOM.dataTimeEl);
     this.loadWithCurrentLang();
     this.sayHello();
+  }
+
+  navigate (url) {
+    navigation(url, this.lang);
   }
 
   loadWithCurrentLang () {

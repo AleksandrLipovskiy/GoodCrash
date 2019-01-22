@@ -33,5 +33,6 @@ export const ru = {
   "main indie": "indie game ",
   "main dev": "разработчик",
   "messages": "Сообщения",
-  "send": "Отправить"
+  "send": "Отправить",
+  "error load": "Что то действительно пошло не так, но я уже работаю над этим"
 }
