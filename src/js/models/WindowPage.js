@@ -6,38 +6,56 @@ export class WindowPage {
   constructor() {}
 
   openWindowPage (url, title, content, container) {
-    let els = this._createWindowPage();
-    els['window'].classList.add(url);
-    this.windowPage = this._buildWindowPage(this._fillWindowPage(els, title, content));
+    const baseClass = 'window-page';
+    const createClases = ['window', 'title', 'full-screen', 'close', 'window-body'];
+    const windowPage = this._createWindow(title, content, baseClass, createClases);
+    
+    windowPage.classList.add(url);
 
-    if (this._isHasNotWindowPage()) {
-      container.appendChild(this.windowPage);
-      this._canCloseWindowPage();
+    this._viewWindow(container, windowPage);
+    this._canCloseWindow(windowPage, false);
+  }
+
+  _createWindow (title, content, baseClass, createClases) {
+    let els = createDOM.createDOMElements(baseClass, createClases);
+
+    return createDOM.buildDOMElement(
+      createDOM.fillDOMElements(els, [title, content], ['title', 'window-body'])
+    );
+  }
+
+  _viewWindow (container, windowForOpen) {
+    if (this._isMissingInContainer(windowForOpen.classList.value)) {
+      container.appendChild(windowForOpen);
+    } else {
+      this._showHidenWindow(windowForOpen.classList.value);
     }
   }
 
-  _createWindowPage () {
-    return createDOM.createDOMElements('window-page', ['window', 'title', 'full-screen', 'close', 'window-body']);
-  }
-
-  _fillWindowPage (els, title, content) {
-    return createDOM.fillDOMElements(els, [title, content], ['title', 'window-body']);
-  }
-
-  _buildWindowPage (els) {
-    return createDOM.buildDOMElement(els);
-  }
-
-  _isHasNotWindowPage () {
-    if (document.querySelector('.window-page-window')) return false;
+  _isMissingInContainer (classesForSelect) {
+    if (this._getElementForSelector(classesForSelect)) return false;
     
     return true;
   }
 
-  _canCloseWindowPage () {
-    document.querySelector('.window-page-close').onclick = () => {
-      this.windowPage.remove();
+  _canCloseWindow (windowForClose, remove = true) {
+    let clasesForSelect = windowForClose.classList[0].split('-');
+    clasesForSelect.length = 2;
+    let closeSelector = clasesForSelect.join('-') + '-close';
+    
+    windowForClose.querySelector(`.${ closeSelector }`).onclick = () => {
+      if (remove) windowForClose.remove();
+      else windowForClose.classList.add('closed-window');
     }
+  }
+
+  _showHidenWindow (classesForSelect) {
+    this._getElementForSelector(classesForSelect).classList.remove('closed-window');
+  }
+
+  _getElementForSelector (classesForSelect) {
+    let selector = classesForSelect.split(' ').join('.');
+    return document.querySelector(`.${ selector }`);
   }
 
   openWindowError (msg, container) {
