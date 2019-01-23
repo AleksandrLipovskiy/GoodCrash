@@ -2,48 +2,27 @@
 
 import { locale } from '../gettext/locale';
 import { WindowPage } from '../models/WindowPage';
+import { getRequest, getResponse } from './xhRequest';
 
 const windowPage = new WindowPage();
+const dir = 'pages';
 
 export function getCurrentUrl () {
   return (window.location.pathname != '/') ? window.location.pathname.substring(1) : '/';
 }
 
-export function navigation (url, lang) {
-  if (url != getCurrentUrl()) _loadPage(url, lang);
+export function navigation (url, lang, container) {
+  if (url != getCurrentUrl()) _loadPage(url, lang, container);
 }
 
-function _loadPage (url, lang) {
-  _xhRequest(url, lang);
+function _loadPage (url, lang, container) {
+  getRequest(url, dir).then(() => {
+    _fillPage(lang, container, getResponse());
+  }).catch((err) => { console.log(err.message) });
 }
 
-function _xhRequest (url, lang) {
-  const xhr = new XMLHttpRequest();
-
-  xhr.open('GET', `${ __dirname + 'pages/' + url }.html`, true);
-  xhr.setRequestHeader('Content-Type', 'text/html');
-  xhr.send();
-
-  xhr.onreadystatechange = () => {
-    if (xhr.readyState != 4) return;
-
-    if (xhr.status != 200) {
-      _viewRequestError(lang, `loadPage: ${url}`, xhr.status, xhr.statusText);
-    } else {
-      try {
-        _fillPage(xhr.responseText);
-      } catch (e) {
-        _viewRequestError(lang, `loadPage: ${url}`, xhr.status, e.message);
-      }
-    }
-  }
+function _fillPage (lang, container, response) {
+  if (response.error) windowPage.openWindowError(locale[lang]['error load'], container);
+  else windowPage.openWindowPage(lang, container, response.ok);
 }
 
-function _fillPage (content) {
-  console.log(content);
-}
-
-function _viewRequestError (lang, ...values) {
-  windowPage.openWindowError(locale[lang]['error load']);
-  // TODO: send me message about error
-}

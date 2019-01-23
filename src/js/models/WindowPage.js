@@ -3,32 +3,39 @@
 import * as createDOM from '../services/createDOM';
 
 export class WindowPage {
-  constructor() {
-    
-  }
+  constructor() {}
 
-  openWindowError (msg) {
+  openWindowError (msg, container) {
     let els = this._createWindowError();
-    this._fillWindowError(els, msg);
-    this.windowError = this._buildWindowError(els);
+    this.windowError = this._buildWindowError(this._fillWindowError(els, msg));
 
-    console.log(this.windowError);
+    if (this._isHasNotWindowError()) {
+      container.appendChild(this.windowError);
+      this._canCloseWindowError();
+    }
   }
 
   _createWindowError () {
-    return createDOM.createDOMElements('window', ['window', 'title', 'full-screen', 'close', 'window-body']);
+    return createDOM.createDOMElements('window-error', ['window', 'title', 'close', 'window-body']);
   }
 
   _fillWindowError (els, msg) {
-    createDOM.fillDOMElements(els, [msg], ['window-body']);
+    return createDOM.fillDOMElements(els, [msg, 'Error'], ['window-body', 'title']);
   }
 
   _buildWindowError (els) {
-    els['window'].appendChild(els['title']);
-    els['window'].appendChild(els['full-screen']);
-    els['window'].appendChild(els['close']);
-    els['window'].appendChild(els['window-body']);
+    return createDOM.buildDOMElement(els);
+  }
 
-    return els['window'];
+  _isHasNotWindowError () {
+    if (document.querySelector('.window-error-window')) return false;
+    
+    return true;
+  }
+
+  _canCloseWindowError () {
+    document.querySelector('.window-error-close').onclick = () => {
+      this.windowError.remove();
+    }
   }
 }

@@ -42,7 +42,8 @@ export class App {
   }
 
   navigate (url) {
-    navigation(url, this.lang);
+    this._removeClassListForNav();
+    navigation(url, this.lang, this.DOM.main);
   }
 
   loadWithCurrentLang () {
@@ -54,10 +55,14 @@ export class App {
   openCloseNav() {
     this.DOM.body.classList.toggle('nav-is-open');
 
+    this.DOM.main.onclick = () => {
+      this._removeClassListForNav();
+    }
+  }
+
+  _removeClassListForNav() {
     if (this.DOM.body.classList.contains('nav-is-open')) {
-      this.DOM.main.onclick = () => {
-        this.DOM.body.classList.remove('nav-is-open');
-      }
+      this.DOM.body.classList.remove('nav-is-open');
     }
   }
 
