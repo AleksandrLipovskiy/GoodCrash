@@ -23,7 +23,7 @@ function _loadPage (url, lang, container) {
 
 function _fillPage (url, lang, container, response) {
   if (response.error) {
-    windowPage.openWindowError(locale[lang]['error load'], container);
+    windowPage.openWindowError('Error', locale[lang]['error load'], container);
     console.log(url, response.error)
     // TODO send me mail with error
   } else {

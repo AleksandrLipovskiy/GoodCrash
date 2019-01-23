@@ -5,6 +5,15 @@ import * as createDOM from '../services/createDOM';
 export class WindowPage {
   constructor() {}
 
+  openWindowError (title, content, container) {
+    const baseClass = 'window-error';
+    const createClases = ['window', 'title', 'close', 'window-body'];
+    const windowError = this._createWindow(title, content, baseClass, createClases);
+
+    this._viewWindow(container, windowError);
+    this._canCloseWindow(windowError, true);
+  }
+
   openWindowPage (url, title, content, container) {
     const baseClass = 'window-page';
     const createClases = ['window', 'title', 'full-screen', 'close', 'window-body'];
@@ -56,39 +65,5 @@ export class WindowPage {
   _getElementForSelector (classesForSelect) {
     let selector = classesForSelect.split(' ').join('.');
     return document.querySelector(`.${ selector }`);
-  }
-
-  openWindowError (msg, container) {
-    let els = this._createWindowError();
-    this.windowError = this._buildWindowError(this._fillWindowError(els, 'Error', msg));
-
-    if (this._isHasNotWindowError()) {
-      container.appendChild(this.windowError);
-      this._canCloseWindowError();
-    }
-  }
-
-  _createWindowError () {
-    return createDOM.createDOMElements('window-error', ['window', 'title', 'close', 'window-body']);
-  }
-
-  _fillWindowError (els, title, msg) {
-    return createDOM.fillDOMElements(els, [title, msg], ['title', 'window-body']);
-  }
-
-  _buildWindowError (els) {
-    return createDOM.buildDOMElement(els);
-  }
-
-  _isHasNotWindowError () {
-    if (document.querySelector('.window-error-window')) return false;
-    
-    return true;
-  }
-
-  _canCloseWindowError () {
-    document.querySelector('.window-error-close').onclick = () => {
-      this.windowError.remove();
-    }
   }
 }
