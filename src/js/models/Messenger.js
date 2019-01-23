@@ -1,6 +1,7 @@
 'use strict';
 
 import { locale } from '../gettext/locale';
+import * as createDOM from '../services/createDOM';
 
 export class Messenger {
   constructor(app) {
@@ -100,21 +101,12 @@ export class Messenger {
   }
 
   _startAnimateAnswer () {
-    let elsClases = ['animate-box', 'animate-pen', 'animate-dotted'];
-    let els = [];
-
-    this._createDOMElements(els, elsClases);
-
-    els['animate-dotted'].textContent = '...';
-
-    els['animate-box'].appendChild(els['animate-pen']);
-    els['animate-box'].appendChild(els['animate-dotted']);
-
-    this._viewNewMessage(els['animate-box']);
+    let els = this._createDOMElements('messenger-message', ['animate', 'animate-pen', 'animate-dotted']);
+    this._viewNewMessage(this._buildMessage(this._fillMessageWithContent(els, ['...'], ['animate-dotted'])));
   }
 
   _stopAnimateAnswer () {
-    document.querySelector('.messenger-message-animate-box').remove();
+    document.querySelector('.messenger-message-animate').remove();
   }
 
   _getAnswresMessage () {
@@ -130,33 +122,21 @@ export class Messenger {
   }
 
   _createNewMessage (author, value) {
-    let elsClases = ['box', 'ctx', 'author', 'body'];
-    let els = [];
-
-    this._createDOMElements(els, elsClases);
-    this._fillMessageWithContent(els, author, value);
-    this._buildMessage(els);
-
-    return els['box'];
+    let els = this._createDOMElements('messenger-message', ['ctx', 'author', 'body']);
+    return this._buildMessage(this._fillMessageWithContent(els, [author, value], ['author', 'body']));
   }
 
-  _createDOMElements (els, elsClases) {
-    elsClases.forEach(i => {
-      els[i] = document.createElement('div');
-      els[i].className = `messenger-message-${ i }`;
-    });
+  _createDOMElements (baseClass, createdClasses) {
+    return createDOM.createDOMElements(baseClass, createdClasses);
   }
 
-  _fillMessageWithContent (els, author, value) {
-    if (author == 'you') els['ctx'].classList.add(author);
-    els['author'].textContent = author;
-    els['body'].textContent = value;
+  _fillMessageWithContent (els, msg, elsForFill) {
+    if (msg[0] == 'you') els['ctx'].classList.add(msg[0]);
+    return createDOM.fillDOMElements(els, msg, elsForFill);
   }
 
   _buildMessage (els) {
-    els['ctx'].appendChild(els['author']);
-    els['ctx'].appendChild(els['body']);
-    els['box'].appendChild(els['ctx']);
+    return createDOM.buildDOMElement(els);
   }
 
   _validValue (value) {
