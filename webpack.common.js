@@ -12,6 +12,16 @@ module.exports = {
       favicon: "./src/favicon.ico",
       filename: 'index.html',
       template: './src/index.pug'
+    }),
+    new HtmlWebpackPlugin({
+      inject: false,
+      filename: 'pages/my-games.html',
+      template: './src/pages/my-games.pug'
+    }),
+    new HtmlWebpackPlugin({
+      inject: false,
+      filename: 'pages/about-me.html',
+      template: './src/pages/about-me.pug'
     })
   ],
   output: {

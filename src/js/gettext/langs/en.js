@@ -1,7 +1,7 @@
 export const en = {
   "home": "Home",
-  "my games": "My Games",
-  "about me": "About Me",
+  "my-games": "My Games",
+  "about-me": "About Me",
   "my email": "my email",
   "i'm social": "i'm social",
   "main": {

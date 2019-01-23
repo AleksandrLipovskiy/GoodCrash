@@ -1,7 +1,7 @@
 export const ru = {
   "home": "Главная",
-  "my games": "Мои игры",
-  "about me": "Обо мне",
+  "my-games": "Мои игры",
+  "about-me": "Обо мне",
   "my email": "мой email",
   "i'm social": "я в соц сетях",
   "main": {

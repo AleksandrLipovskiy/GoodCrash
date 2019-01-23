@@ -17,12 +17,17 @@ export function navigation (url, lang, container) {
 
 function _loadPage (url, lang, container) {
   getRequest(url, dir).then(() => {
-    _fillPage(lang, container, getResponse());
+    _fillPage(url, lang, container, getResponse());
   }).catch((err) => { console.log(err.message) });
 }
 
-function _fillPage (lang, container, response) {
-  if (response.error) windowPage.openWindowError(locale[lang]['error load'], container);
-  else windowPage.openWindowPage(lang, container, response.ok);
+function _fillPage (url, lang, container, response) {
+  if (response.error) {
+    windowPage.openWindowError(locale[lang]['error load'], container);
+    console.log(url, response.error)
+    // TODO send me mail with error
+  } else {
+    windowPage.openWindowPage(url, locale[lang][url], response.ok, container);
+  }
 }
 

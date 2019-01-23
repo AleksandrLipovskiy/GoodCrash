@@ -2,7 +2,6 @@
 
 const request = new XMLHttpRequest();
 const response = {
-  url: null,
   error: null,
   ok: null
 };
@@ -18,15 +17,17 @@ function _sendRequest (url, dir) {
     request.send();
 
     request.onreadystatechange = () => {
+      if (request.readyState != 4) return;
+
       if (request.status != 200) {
-        _returnError(url, request.status, request.statusText);
+        _returnError(request.status, request.statusText);
       }
       else {
         try {
           _returnOk(request.responseText);
         }
         catch (e) {
-          _returnError(url, request.status, e.message);
+          _returnError(request.status, e.message);
         }
       }
 
@@ -35,12 +36,14 @@ function _sendRequest (url, dir) {
   });
 }
 
-function _returnError (url, status, msg) {
-  response.error = { url: url, status: status, msg: msg };
+function _returnError (status, msg) {
+  response.ok = null;
+  response.error = { status: status, msg: msg };
 }
 
-function _returnOk (content) {
-  response.ok = { content: content };
+function _returnOk (responseText) {
+  response.error = null;
+  response.ok = responseText;
 }
 
 export function getResponse () {
