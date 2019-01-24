@@ -24,6 +24,7 @@ export class WindowPage {
     this._viewWindow(container, windowPage);
     this._setActiveWhenClickThisWindow(windowPage);
     this._canFullScreenSize(windowPage);
+    this._canDragAndDrop(windowPage);
     this._canCloseWindow(windowPage, false);
   }
 
@@ -71,14 +72,68 @@ export class WindowPage {
 
   /**
    * Toggle class in classList el, as a result el change css style
-   * @param { object } el
+   * @param { object | DOM el } el
    */
   _canFullScreenSize (el) {
     let fullScreenTrigger = this._getChildNodeForSelector(el.classList, 'full-screen');
 
     el.querySelector(`.${ fullScreenTrigger }`).onclick = () => {
       el.classList.toggle('full-screen');
+      el.style.top = 31 + 'px';
+      el.style.left = 1 + 'px';
     }
+  }
+
+  /**
+   * Changes position el in the capture of title in el, if el
+   * hasn't class full-screen
+   * @param { object | DOM el } el
+   */
+  _canDragAndDrop (el) {
+    let titleTrigger = this._getChildNodeForSelector(el.classList, 'title');
+
+    el.querySelector(`.${ titleTrigger }`).onmousedown = (event) => {
+      if (!el.classList.contains('full-screen')) this._dragAndDrop(el, event);
+    }
+  }
+
+  /**
+   * Drag and Drop effect witn el
+   * @param { object | DOM el } el
+   * @param { event | event mouse/touchpad } event
+   */
+  _dragAndDrop (el, event) {
+    const coords = _getCoords(el);
+    const shiftX = event.pageX - coords.left;
+    const shiftY = event.pageY - coords.top;
+
+    _moveAt(event);
+
+    document.onmousemove = function(e) {
+      _moveAt(e);
+    };
+
+    el.onmouseup = function() {
+      document.onmousemove = null;
+      el.onmouseup = null;
+    };
+
+    function _getCoords(element) {
+      const box = element.getBoundingClientRect();
+      return {
+        top: box.top + pageYOffset,
+        left: box.left + pageXOffset
+      };
+    }
+
+    function _moveAt(e) {
+      el.style.left = e.pageX - shiftX + 'px';
+      el.style.top = e.pageY - shiftY + 'px';
+    }
+
+    el.ondragstart = function() {
+      return false;
+    };
   }
 
   _canCloseWindow (el, remove = true) {
@@ -106,7 +161,7 @@ export class WindowPage {
 
   /**
    * Return building class selector for find child in el
-   * @param { DOMTokenList } classList
+   * @param { object | DOMTokenList } classList
    * @param { string } key
    * @returns { string }
    */
