@@ -212,7 +212,6 @@ export class WindowPage {
       } else {
         el.classList.add('closed-window');
         setNewUrl(this._classActiveWindow(el));
-        console.log(this._classActiveWindow(el));
       }
     }
   }

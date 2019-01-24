@@ -1,7 +1,7 @@
 'use strict';
 
 import { getDOM } from './services/getDOM';
-import { getCurrentUrl, navigation } from './services/navigation';
+import { listenToHistiryPages, getCurrentUrl, navigation } from './services/navigation';
 import { runClock } from './services/clock';
 import { getCurrentLang, changeLang } from './services/i18n';
 import { locale } from './gettext/locale';
@@ -42,8 +42,12 @@ export class App {
   }
 
   loadPage () {
-    console.log(getCurrentUrl());
     this.loadWithCurrentLang();
+
+    let url = getCurrentUrl();
+    if (url != '/') navigation(url, this.lang, this.DOM.main, false);
+
+    listenToHistiryPages(this.lang, this.DOM.main);
   }
 
   navigate (url) {

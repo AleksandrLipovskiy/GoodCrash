@@ -8,6 +8,17 @@ const windowPage = new WindowPage();
 const dir = 'pages';
 
 /**
+ * Loded page when change window.history (click browser btn prev next)
+ * @param { string } lang
+ * @param { object | DOM el } container, in this - (main)
+ */
+export function listenToHistiryPages (lang, container) {
+  window.onpopstate = (event) => {
+    navigation (event.state.path, lang, container, false);
+  }
+}
+
+/**
  * Return current url
  * @returns { string }, example: "/" or "my-games"
  */
@@ -29,9 +40,11 @@ export function setNewUrl (url) {
  * @param { string } url
  * @param { string } lang
  * @param { object | DOM el } container, in this - (main)
+ * @param { bollean } equal, default: true (if true -> check for equality url)
  */
-export function navigation (url, lang, container) {
-  if (url != getCurrentUrl()) _loadPage(url, lang, container);
+export function navigation (url, lang, container, equal = true) {
+  if (url != getCurrentUrl() && equal) _loadPage(url, lang, container);
+  else if (!equal) _loadPage(url, lang, container);
 }
 
 /**
