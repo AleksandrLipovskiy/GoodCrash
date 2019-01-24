@@ -18,3 +18,9 @@ bg-glitch-red(t)
   background: -webkit-repeating-linear-gradient(0deg, $red 0px, $red 1px, transparent 1px, transparent t)
   background: -o-repeating-linear-gradient(0deg, $red 0px, $red 1px, transparent 1px, transparent t)
   background: repeating-linear-gradient(0deg, $red 0px, $red 1px, transparent 1px, transparent t)
+
+clip-path(tlx, tly, trx, try, brx, bry, blx, bly)
+  clip-path: polygon(tlx tly, trx try, brx bry, blx bly)
+
+random(min,max)
+  return floor(math(0, 'random')*(max - min + 1) + min)

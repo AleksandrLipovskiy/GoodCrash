@@ -1,6 +1,7 @@
 'use strict';
 
 import { getDOM } from './services/getDOM';
+import { Preloader } from './models/Preloader';
 import { listenToHistiryPages, getCurrentUrl, navigation } from './services/navigation';
 import { runClock } from './services/clock';
 import { getCurrentLang, changeLang } from './services/i18n';
@@ -13,6 +14,7 @@ export class App {
     this.DOM = getDOM();
     this.lang = getCurrentLang();
     this.timePrintText = 60;
+    this.preloader = new Preloader(this);
     this.messenger = new Messenger(this);
     this._isLoaded = false;
     this._isSoundVolue = true;
@@ -36,9 +38,10 @@ export class App {
   }
 
   init () {
+    this.preloader.run();
     runClock(this.DOM.dataTimeEl);
     this.loadPage();
-    this.sayHello();
+    //this.sayHello();
   }
 
   loadPage () {
