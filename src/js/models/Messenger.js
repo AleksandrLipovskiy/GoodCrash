@@ -8,7 +8,7 @@ export class Messenger {
     this.app = app;
     this.gettext = locale[app.lang]["messenger"];
     this.rington = new Audio('../../audio/new-message.mp3');
-    this.i = 0;
+    this.iAnswer = 0;
     this._isSendedFirstMessage = false;
     this._isFirstAnswer = true;
   }
@@ -58,6 +58,10 @@ export class Messenger {
     this.app.DOM.messengerMessage.textContent = this.gettext["hello"];
   }
 
+  /**
+   * Increase count new messages in message icon in header
+   * @param { number } numberOfNewMessage
+   */
   _increaseAmountInIcon (numberOfNewMessage) {
     setTimeout(() => {
       this.app.DOM.chatIcon.classList.add('new-message-arrived');
@@ -65,15 +69,24 @@ export class Messenger {
     }, 1000);
   }
 
+  /**
+   * Parse current count new message in message icon in header
+   */
   _getCurrentAmountInIcon () {
     return parseInt(this.app.DOM.chatCount.textContent, 10);
   }
 
+  /**
+   * Resets to zero count new message in message icon in header
+   */
   _decreaseAmountInIcon () {
     this.app.DOM.chatIcon.classList.remove('new-message-arrived');
     this.app.DOM.chatCount.textContent = 0;
   }
 
+  /**
+   * Run dialog when user send message (click btn send)
+   */
   _startDialogue () {
     this.app.DOM.messengerBtn.onclick = () => {
       let value = this.app.DOM.messengerInput.value;
@@ -83,12 +96,18 @@ export class Messenger {
     }
   }
 
+  /**
+   * Get user message. add it in dialog and run print answer
+   */
   _sendMessageFromUser (value) {
     let message = this._createNewMessage('you', this._validValue(value));
     this._viewNewMessage(message);
     this._goodCrashAnswers();
   }
 
+  /**
+   * Play animation for print answer and add answer in dialog
+   */
   _goodCrashAnswers () {
     this._startAnimateAnswer();
 
@@ -113,10 +132,13 @@ export class Messenger {
     return this._createNewMessage('GoodCrash', this._getAnswresMessageValue());
   }
 
+  /**
+   * Take the answer in order according to this.iAnswer
+   */
   _getAnswresMessageValue () {
-    let value = this.isFirstAnswer ? this.gettext["first message"] : this.gettext["second message"][this.i];
-    if (!this.isFirstAnswer && this.i < 8) this.i += 1;
-    if (this.i == 8) this.i = 0;
+    let value = this.isFirstAnswer ? this.gettext["first message"] : this.gettext["second message"][this.iAnswer];
+    if (!this.isFirstAnswer && this.iAnswer < 8) this.iAnswer += 1;
+    if (this.iAnswer == 8) this.iAnswer = 0;
 
     return value;
   }

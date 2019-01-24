@@ -8,8 +8,8 @@
   min-width: 300px
   height: -webkit-calc(100% - 80px)
   height: calc(100% - 80px)
-  color: $black
-  background: $gray-light
+  color: $white
+  background: $black-dark
   border: 2px solid $black
   box-shadow(0, 1px, 3px, $black)
   z-index: 8000
@@ -23,7 +23,8 @@
   left: 0
   width: 100%
   height: 30px
-  border-bottom: 1px solid $smoky
+  background: $black
+  border: 1px solid $black-dark
 
 .messenger-header-title
   position: absolute
@@ -42,7 +43,7 @@
   width: 28px
   height: 28px
   background: $crash
-  border: 1px solid $white
+  border: 1px solid $crash
   cursor: pointer
   animation-when-event($animation_time, $animation_time_delay)
   &:hover
@@ -90,7 +91,7 @@
   overflow: hidden
   &.you
     margin-left: 20%
-    background: $white
+    background: $black
 
 .messenger-message-author
   position: relative
@@ -140,7 +141,7 @@
   width: 100%
   height: 170px
   padding: 10px
-  border-top: 1px solid $smoky
+  border-top: 1px solid $black
 
 .messenger-send-input
   position: relative
@@ -154,7 +155,9 @@ textarea
     padding: 10px
     font-size: 1rem
     resize: none
-    border: 1px solid $smoky
+    color: $white
+    background: $black
+    border: 1px solid $black
 
 .messenger-send-btn
   position: absolute
