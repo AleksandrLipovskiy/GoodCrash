@@ -34,6 +34,8 @@ export class WindowPage {
   }
 
   _viewWindow (container, windowForOpen) {
+    this._setActive(windowForOpen);
+
     if (this._isMissingInContainer(windowForOpen.classList.value)) {
       container.appendChild(windowForOpen);
     } else {
@@ -47,23 +49,43 @@ export class WindowPage {
     return true;
   }
 
+  _setActive (el) {
+    let allWindows = this._getAllElementsForSelector(el.classList);
+
+    for (let windowInAll of allWindows) {
+      if (!windowInAll.classList.contains(el.classList[1])) {
+        if (windowInAll) windowInAll.classList.add('not-active');
+      } else {
+        windowInAll.classList.remove('not-active');
+      }
+    }
+  }
+
   _canCloseWindow (windowForClose, remove = true) {
     let clasesForSelect = windowForClose.classList[0].split('-');
     clasesForSelect.length = 2;
     let closeSelector = clasesForSelect.join('-') + '-close';
     
     windowForClose.querySelector(`.${ closeSelector }`).onclick = () => {
-      if (remove) windowForClose.remove();
-      else windowForClose.classList.add('closed-window');
+      if (remove) {
+        windowForClose.remove();
+      } else {
+        windowForClose.classList.add('closed-window');
+      }
     }
   }
 
   _showHidenWindow (classesForSelect) {
-    this._getElementForSelector(classesForSelect).classList.remove('closed-window');
+    let windowForShow = this._getElementForSelector(classesForSelect).classList.remove('closed-window');
   }
 
   _getElementForSelector (classesForSelect) {
     let selector = classesForSelect.split(' ').join('.');
     return document.querySelector(`.${ selector }`);
+  }
+
+  _getAllElementsForSelector (classesForSelect) {
+    let selector = classesForSelect[0];
+    return document.querySelectorAll(`.${ selector }`);
   }
 }
