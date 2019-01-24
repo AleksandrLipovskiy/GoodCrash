@@ -5,6 +5,12 @@ import * as createDOM from '../services/createDOM';
 export class WindowPage {
   constructor() {}
 
+  /**
+   * public function - Menege modal window for error when can't load page
+   * @param { string } title
+   * @param { string } content
+   * @param { object | DOM el } container
+   */
   openWindowError (title, content, container) {
     const baseClass = 'window-error';
     const createClases = ['window', 'title', 'close', 'window-body'];
@@ -14,6 +20,13 @@ export class WindowPage {
     this._canCloseWindow(windowError, true);
   }
 
+  /**
+   * public function - Menege modal window for loading page
+   * @param { string } url
+   * @param { string } title
+   * @param { string } content
+   * @param { object | DOM el } container
+   */
   openWindowPage (url, title, content, container) {
     const baseClass = 'window-page';
     const createClases = ['window', 'title', 'full-screen', 'close', 'window-body'];
@@ -28,6 +41,15 @@ export class WindowPage {
     this._canCloseWindow(windowPage, false);
   }
 
+  /**
+   * Create with classes, fill content and build new DOM el
+   * Return false if el presente in DOM
+   * @param { string } title
+   * @param { string } content
+   * @param { string } baseClass
+   * @param { array } createClases
+   * @returns { object | DOM el }
+   */
   _createWindow (title, content, baseClass, createClases) {
     let els = createDOM.createDOMElements(baseClass, createClases);
 
@@ -36,6 +58,13 @@ export class WindowPage {
     );
   }
 
+  /**
+   * Set el active, other els not active.
+   * Append el in contaimer.
+   * Or change el classList for show it, if it was added earlier.
+   * @param { object | DOM el } el
+   * @param { object | DOM el } container, in this - (main)
+   */
   _viewWindow (container, el) {
     this._setActive(el);
 
@@ -46,12 +75,32 @@ export class WindowPage {
     }
   }
 
+  /**
+   * Return true if el with classes in classList missing in DOM
+   * Return false if el presente in DOM
+   * @param { string } classesForSelect, example: "window-page-window my-games"
+   * @returns { boolean }
+   */
   _isMissingInContainer (classesForSelect) {
     if (this._getElementForSelector(classesForSelect)) return false;
     
     return true;
   }
 
+  /**
+   * Remove class in classList finding DOM, as a result el change css style
+   * @param { string } classesForSelect, example: "window-page-window my-games"
+   */
+  _showHidenWindow (classesForSelect) {
+    let windowForShow = this._getElementForSelector(classesForSelect).classList.remove('closed-window');
+  }
+
+  /**
+   * Change classList for el and els in finding NodeList.
+   * For el remove 'not-active' and it becomes active (z-index: 6000)
+   * For other els add 'not-active' and it becomes not active (z-index: 5000)
+   * @param { object | DOM el } el
+   */
   _setActive (el) {
     let allWindows = this._getAllElementsForSelector(el.classList);
 
@@ -64,9 +113,13 @@ export class WindowPage {
     }
   }
 
+  /**
+   * Set el active when click on it, if it has class 'not-active'
+   * @param { object | DOM el } el
+   */
   _setActiveWhenClickThisWindow (el) {
     el.onclick = () => {
-      this._setActive(el);
+      if (el.classList.contains('not-active')) this._setActive(el);
     }
   }
 
@@ -136,12 +189,15 @@ export class WindowPage {
     };
   }
 
+  /**
+   * Remove windowError and Hide windowPage when click close window icon
+   * @param { object | DOM el } el
+   * @param { boolean } remove
+   */
   _canCloseWindow (el, remove = true) {
-    let clasesForSelect = el.classList[0].split('-');
-    clasesForSelect.length = 2;
-    let closeSelector = clasesForSelect.join('-') + '-close';
+    let closeTrigger = this._getChildNodeForSelector(el.classList, 'close');
     
-    el.querySelector(`.${ closeSelector }`).onclick = () => {
+    el.querySelector(`.${ closeTrigger }`).onclick = () => {
       if (remove) {
         el.remove();
       } else {
@@ -150,18 +206,20 @@ export class WindowPage {
     }
   }
 
-  _showHidenWindow (classesForSelect) {
-    let windowForShow = this._getElementForSelector(classesForSelect).classList.remove('closed-window');
-  }
-
+  /**
+   * Return finding DOM el with building class selector 
+   * @param { string } classesForSelect, example: "window-page-window my-games"
+   * @returns { object | DOM el }
+   */
   _getElementForSelector (classesForSelect) {
     let selector = classesForSelect.split(' ').join('.');
+
     return document.querySelector(`.${ selector }`);
   }
 
   /**
    * Return building class selector for find child in el
-   * @param { object | DOMTokenList } classList
+   * @param { object | DOMTokenList } classList, example: ["window-page-window", "my-games", value: "..."]
    * @param { string } key
    * @returns { string }
    */
@@ -172,8 +230,14 @@ export class WindowPage {
     return firstPartForBuildSelector.join('-') + '-' + key;
   }
 
-  _getAllElementsForSelector (classesForSelect) {
-    let selector = classesForSelect[0];
+  /**
+   * Return finding NodeList els with building class selector 
+   * @param { object | DOMTokenList } classList, example: ["window-page-window", "my-games", value: "..."]
+   * @returns { object | NodeList }
+   */
+  _getAllElementsForSelector (classList) {
+    let selector = classList[0];
+
     return document.querySelectorAll(`.${ selector }`);
   }
 }
