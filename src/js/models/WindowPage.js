@@ -23,6 +23,7 @@ export class WindowPage {
 
     this._viewWindow(container, windowPage);
     this._setActiveWhenClickThisWindow(windowPage);
+    this._canFullScreenSize(windowPage);
     this._canCloseWindow(windowPage, false);
   }
 
@@ -34,13 +35,13 @@ export class WindowPage {
     );
   }
 
-  _viewWindow (container, windowForOpen) {
-    this._setActive(windowForOpen);
+  _viewWindow (container, el) {
+    this._setActive(el);
 
-    if (this._isMissingInContainer(windowForOpen.classList.value)) {
-      container.appendChild(windowForOpen);
+    if (this._isMissingInContainer(el.classList.value)) {
+      container.appendChild(el);
     } else {
-      this._showHidenWindow(windowForOpen.classList.value);
+      this._showHidenWindow(el.classList.value);
     }
   }
 
@@ -68,16 +69,28 @@ export class WindowPage {
     }
   }
 
-  _canCloseWindow (windowForClose, remove = true) {
-    let clasesForSelect = windowForClose.classList[0].split('-');
+  /**
+   * Toggle class in classList el, as a result el change css style
+   * @param { object } el
+   */
+  _canFullScreenSize (el) {
+    let fullScreenTrigger = this._getChildNodeForSelector(el.classList, 'full-screen');
+
+    el.querySelector(`.${ fullScreenTrigger }`).onclick = () => {
+      el.classList.toggle('full-screen');
+    }
+  }
+
+  _canCloseWindow (el, remove = true) {
+    let clasesForSelect = el.classList[0].split('-');
     clasesForSelect.length = 2;
     let closeSelector = clasesForSelect.join('-') + '-close';
     
-    windowForClose.querySelector(`.${ closeSelector }`).onclick = () => {
+    el.querySelector(`.${ closeSelector }`).onclick = () => {
       if (remove) {
-        windowForClose.remove();
+        el.remove();
       } else {
-        windowForClose.classList.add('closed-window');
+        el.classList.add('closed-window');
       }
     }
   }
@@ -89,6 +102,19 @@ export class WindowPage {
   _getElementForSelector (classesForSelect) {
     let selector = classesForSelect.split(' ').join('.');
     return document.querySelector(`.${ selector }`);
+  }
+
+  /**
+   * Return building class selector for find child in el
+   * @param { DOMTokenList } classList
+   * @param { string } key
+   * @returns { string }
+   */
+  _getChildNodeForSelector (classList, key) {
+    let firstPartForBuildSelector = classList[0].split('-');
+    firstPartForBuildSelector.length = 2;
+
+    return firstPartForBuildSelector.join('-') + '-' + key;
   }
 
   _getAllElementsForSelector (classesForSelect) {
