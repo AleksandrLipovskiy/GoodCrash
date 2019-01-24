@@ -7,20 +7,54 @@ import { getRequest, getResponse } from './xhRequest';
 const windowPage = new WindowPage();
 const dir = 'pages';
 
+/**
+ * Return current url
+ * @returns { string }, example: "/" or "my-games"
+ */
 export function getCurrentUrl () {
   return (window.location.pathname != '/') ? window.location.pathname.substring(1) : '/';
 }
 
+/**
+ * Set new url and push it in window.history 
+ * @param { string } url
+ */
+export function setNewUrl (url) {
+  let newUrl = window.location.origin + '/' + (url != '/') ? url : '';
+  window.history.pushState({ path: newUrl },'',`${ newUrl }`);
+}
+
+/**
+ * Loads the page on the specified url into the container based on the current lang 
+ * @param { string } url
+ * @param { string } lang
+ * @param { object | DOM el } container, in this - (main)
+ */
 export function navigation (url, lang, container) {
   if (url != getCurrentUrl()) _loadPage(url, lang, container);
 }
 
+/**
+ * Send XMLHttpRequest, get response. open modal window and fill into it page or error 
+ * Use { getRequest, getResponse } from './xhRequest';
+ * @param { string } url
+ * @param { string } lang
+ * @param { object | DOM el } container, in this - (main)
+ */
 function _loadPage (url, lang, container) {
   getRequest(url, dir).then(() => {
     _fillPage(url, lang, container, getResponse());
   }).catch((err) => { console.log(err.message) });
 }
 
+/**
+ * Open modal window and fill into it page or error 
+ * Use { WindowPage } from '../models/WindowPage';
+ * @param { string } url
+ * @param { string } lang
+ * @param { object | DOM el } container, in this - main
+ * @param { object } response, in this - from getResponse()
+ */
 function _fillPage (url, lang, container, response) {
   if (response.error) {
     windowPage.openWindowError('Error', locale[lang]['error load'], container);
@@ -30,4 +64,3 @@ function _fillPage (url, lang, container, response) {
     windowPage.openWindowPage(url, locale[lang][url], response.ok, container);
   }
 }
-

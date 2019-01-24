@@ -1,6 +1,7 @@
 'use strict';
 
 import * as createDOM from '../services/createDOM';
+import { setNewUrl } from '../services/navigation';
 
 export class WindowPage {
   constructor() {}
@@ -35,7 +36,7 @@ export class WindowPage {
     windowPage.classList.add(url);
 
     this._viewWindow(container, windowPage);
-    this._setActiveWhenClickThisWindow(windowPage);
+    this._setActiveWhenClickThisWindow(url, windowPage);
     this._canFullScreenSize(windowPage);
     this._canDragAndDrop(windowPage);
     this._canCloseWindow(windowPage, false);
@@ -66,7 +67,7 @@ export class WindowPage {
    * @param { object | DOM el } container, in this - (main)
    */
   _viewWindow (container, el) {
-    this._setActive(el);
+    this._setActive(el.classList[1], el);
 
     if (this._isMissingInContainer(el.classList.value)) {
       container.appendChild(el);
@@ -99,9 +100,12 @@ export class WindowPage {
    * Change classList for el and els in finding NodeList.
    * For el remove 'not-active' and it becomes active (z-index: 6000)
    * For other els add 'not-active' and it becomes not active (z-index: 5000)
+   * Set new url for active el, if it not close
+   * Use { setNewUrl } from '../services/navigation';
+   * @param { string } url
    * @param { object | DOM el } el
    */
-  _setActive (el) {
+  _setActive (url, el) {
     let allWindows = this._getAllElementsForSelector(el.classList);
 
     for (let windowInAll of allWindows) {
@@ -111,15 +115,18 @@ export class WindowPage {
         windowInAll.classList.remove('not-active');
       }
     }
+
+    if (!el.classList.contains('closed-window')) setNewUrl(el.classList[1]);
   }
 
   /**
    * Set el active when click on it, if it has class 'not-active'
+   * @param { string } url
    * @param { object | DOM el } el
    */
-  _setActiveWhenClickThisWindow (el) {
+  _setActiveWhenClickThisWindow (url, el) {
     el.onclick = () => {
-      if (el.classList.contains('not-active')) this._setActive(el);
+      if (el.classList.contains('not-active')) this._setActive(url, el);
     }
   }
 
@@ -191,6 +198,8 @@ export class WindowPage {
 
   /**
    * Remove windowError and Hide windowPage when click close window icon
+   * Set new url for activ not closed window or root ('/')
+   * Use { setNewUrl } from '../services/navigation';
    * @param { object | DOM el } el
    * @param { boolean } remove
    */
@@ -202,8 +211,31 @@ export class WindowPage {
         el.remove();
       } else {
         el.classList.add('closed-window');
+        setNewUrl(this._classActiveWindow(el));
+        console.log(this._classActiveWindow(el));
       }
     }
+  }
+
+  /**
+   * Find remaining open windows, and get class on last on NodeList
+   * Return url math class
+   * @param { object | DOM el } el
+   * @returns { string }
+   */
+  _classActiveWindow (el) {
+    let remainingEl;
+    let nodeList = this._getAllElementsForSelector(el.classList);
+
+    for (let node of nodeList) {
+      if (!node.classList.contains('closed-window')) {
+        remainingEl = node;
+      }
+    }
+
+    if (!!remainingEl) return remainingEl.classList[1];
+
+    return '/';
   }
 
   /**
