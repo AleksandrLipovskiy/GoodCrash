@@ -22,6 +22,7 @@ export class WindowPage {
     windowPage.classList.add(url);
 
     this._viewWindow(container, windowPage);
+    this._setActiveWhenClickThisWindow(windowPage);
     this._canCloseWindow(windowPage, false);
   }
 
@@ -58,6 +59,12 @@ export class WindowPage {
       } else {
         windowInAll.classList.remove('not-active');
       }
+    }
+  }
+
+  _setActiveWhenClickThisWindow (el) {
+    el.onclick = () => {
+      this._setActive(el);
     }
   }
 
