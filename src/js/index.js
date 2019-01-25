@@ -33,7 +33,7 @@ window.onload = function() {
   // change lang when clicl lang selector
   for (let langSelector of app.DOM.langSelectors) {
     langSelector.onclick = function() {
-      if (app.isLoaded) app.clickLangSelector(this);
+      app.clickLangSelector(this);
     }
   }
 

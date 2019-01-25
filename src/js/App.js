@@ -121,7 +121,12 @@ export class App {
 
   clickLangSelector (langSelector) {
     this.lang = langSelector.textContent;
-    changeLang(this.DOM.body, this.lang, this.DOM.gettext);
+
+    if (this.isLoaded) {
+      changeLang(this.DOM.body, this.lang, this.DOM.gettext);
+    } else {
+      changeLang(this.DOM.body, this.lang, this.DOM.gettext, true);
+    }
   }
 
   ofOnSound (el) {

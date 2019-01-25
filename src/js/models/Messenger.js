@@ -6,7 +6,6 @@ import * as createDOM from '../services/createDOM';
 export class Messenger {
   constructor(app) {
     this.app = app;
-    this.gettext = locale[app.lang]["messenger"];
     this.rington = new Audio('../../audio/new-message.mp3');
     this.iAnswer = 0;
     this._isSendedFirstMessage = false;
@@ -55,7 +54,7 @@ export class Messenger {
   }
 
   _greetingFromGoodCrash () {
-    this.app.DOM.messengerMessage.textContent = this.gettext["hello"];
+    this.app.DOM.messengerMessage.textContent = locale[this.app.lang]["messenger"]["hello"];
   }
 
   /**
@@ -136,7 +135,9 @@ export class Messenger {
    * Take the answer in order according to this.iAnswer
    */
   _getAnswresMessageValue () {
-    let value = this.isFirstAnswer ? this.gettext["first message"] : this.gettext["second message"][this.iAnswer];
+    let value = this.isFirstAnswer ? locale[this.app.lang]["messenger"]["first message"] 
+                                   : locale[this.app.lang]["messenger"]["second message"][this.iAnswer];
+
     if (!this.isFirstAnswer && this.iAnswer < 8) this.iAnswer += 1;
     if (this.iAnswer == 8) this.iAnswer = 0;
 
