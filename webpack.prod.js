@@ -1,6 +1,6 @@
 const webpack = require('webpack');
 const merge = require('webpack-merge');
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 const common = require('./webpack.common.js');
@@ -9,12 +9,17 @@ module.exports = merge(common, {
   mode: 'production',
   optimization: {
     minimizer: [
-      new UglifyJsPlugin({
+      new TerserPlugin({
         cache: true,
         parallel: true,
         sourceMap: true,
-        uglifyOptions: {
-          warnings: false
+        terserOptions: {
+          warnings: false,
+          ie8: false,
+          safari10: false,
+          output: {
+            comments: false,
+          }
         }
       }),
       new OptimizeCSSAssetsPlugin({})
@@ -44,7 +49,7 @@ module.exports = merge(common, {
         test: /\.styl$/,
         use: [
           MiniCssExtractPlugin.loader,
-          'css-loader',
+          "css-loader",
           'postcss-loader',
           'stylus-loader'
         ]
