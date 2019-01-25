@@ -1,21 +1,4 @@
 export const en = {
-  "preloader" : {
-    "success preload" : {
-      "0" : "[ OK ] Begin initializing scripts...",
-      "1" : "[ OK ] Start processes ",
-      "2" : "[ OK ] Downloading resources ",
-      "3" : "[ OK ] Build |> Run... "
-    },
-    "error preload" : {
-      "0" : "[ ERROR ] ..."
-    },
-    "crash preload" : {
-      "0" : "[ CRASH ] ..."
-    },
-    "goodcrash preload" : {
-      "0" : "[ GOODCRASH ] ..."
-    }
-  },
   "home": "Home",
   "my-games": "My Games",
   "about-me": "About Me",

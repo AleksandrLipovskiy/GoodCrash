@@ -13,12 +13,11 @@ export class App {
   constructor() {
     this.DOM = getDOM();
     this.lang = getCurrentLang();
-    this.timePrintText = 60;
-    this.preloader = new Preloader(this);
     this.messenger = new Messenger(this);
+    this.timePrintText = 60;
     this._isLoaded = false;
     this._isSoundVolue = true;
-    this.init();
+    this._init();
   }
 
   get isLoaded () {
@@ -37,15 +36,36 @@ export class App {
     this._isSoundVolue = value;
   }
 
-  init () {
-    this.preloader.run();
+  /**
+   * Set clock in header tools and run preloader
+   */
+  _init () {
     runClock(this.DOM.dataTimeEl);
-    this.loadPage();
-    //this.sayHello();
+    this._preload();
   }
 
-  loadPage () {
-    this.loadWithCurrentLang();
+  /**
+   * When preloader.run() finish -> run this.start()
+   */
+  _preload () {
+    const preloader = new Preloader();
+
+    preloader.run().then(() => { this._start() });
+  }
+
+  /**
+   * Loading page and run hello animation
+   */
+  _start () {
+    this._loadPage();
+    this._sayHello();
+  }
+
+  /**
+   * Load page with current url and run listen window.history
+   */
+  _loadPage () {
+    this._loadWithCurrentLang();
 
     let url = getCurrentUrl();
     if (url != '/') navigation(url, this.lang, this.DOM.main, false);
@@ -53,15 +73,36 @@ export class App {
     listenToHistiryPages(this.lang, this.DOM.main);
   }
 
-  navigate (url) {
-    this._removeClassListForNav();
-    navigation(url, this.lang, this.DOM.main);
-  }
-
-  loadWithCurrentLang () {
+  /**
+   * Use i18n for translate site when window onload
+   */
+  _loadWithCurrentLang () {
     if (document.documentElement.getAttribute('lang') != this.lang) {
       changeLang(this.DOM.body, this.lang, this.DOM.gettext, true);
     }
+  }
+
+  /**
+   * Hello animation, animated print text in DOM el '.say-hello'
+   */
+  _sayHello () {
+    const printHello = async () => {
+      await animate.pauseBetween();
+      await animate.printText(this.DOM.sayHelloHello, locale[this.lang]['main']['hello'], this.timePrintText);
+      await animate.printText(this.DOM.sayHelloIndie, locale[this.lang]['main']['indie'], this.timePrintText);
+      await animate.printText(this.DOM.sayHelloDev, locale[this.lang]['main']['dev'], this.timePrintText);
+      await animate.pauseBetween();
+    }
+
+    printHello().then(() => {
+      this.DOM.body.classList.add('load');
+      this.isLoaded = true;
+    }).catch((err) => { console.log(err.message) });
+  }
+
+  navigate (url) {
+    this._removeClassListForNav();
+    navigation(url, this.lang, this.DOM.main);
   }
 
   openCloseNav() {
@@ -86,20 +127,5 @@ export class App {
   ofOnSound (el) {
     el.setAttribute('volume', !this.isSoundVolue);
     this.isSoundVolue = !this.isSoundVolue;
-  }
-
-  sayHello () {
-    const printHello = async () => {
-      await animate.pauseBetween();
-      await animate.printText(this.DOM.sayHelloHello, locale[this.lang]['main']['hello'], this.timePrintText);
-      await animate.printText(this.DOM.sayHelloIndie, locale[this.lang]['main']['indie'], this.timePrintText);
-      await animate.printText(this.DOM.sayHelloDev, locale[this.lang]['main']['dev'], this.timePrintText);
-      await animate.pauseBetween();
-    }
-
-    printHello().then(() => {
-      this.DOM.body.classList.add('load');
-      this.isLoaded = true;
-    }).catch((err) => { console.log(err.message) });
   }
 }

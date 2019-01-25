@@ -1,6 +1,13 @@
 'use strict';
 
-export function printText(ctx, text, time) {
+/**
+ * Animated text printing
+ * @param { object | DOM el } container
+ * @param { object } text
+ * @param { number } time
+ * @returns { Promise }
+ */
+export function printText(container, text, time) {
   return new Promise(resolve => {
     let countStrings = Object.keys(text).length;
     let i = 0;
@@ -35,11 +42,11 @@ export function printText(ctx, text, time) {
     }
 
     let printChar = (char) => {
-      ctx.innerHTML += char;
+      container.innerHTML += char;
     }
 
     let addLineBreak = () => {
-      ctx.innerHTML += ' </br>';
+      container.innerHTML += ' </br>';
     }
 
     printStrings(text[i], () => {
@@ -48,7 +55,15 @@ export function printText(ctx, text, time) {
   });
 }
 
-export function deleteText(ctx, text, time) {
+
+/**
+ * Animated text delete
+ * @param { object | DOM el } container
+ * @param { object } text
+ * @param { number } time
+ * @returns { Promise }
+ */
+export function deleteText(container, text, time) {
   return new Promise((resolve, reject) => {
     let countStrings = Object.keys(text).length;
     let i = countStrings - 1;
@@ -58,8 +73,8 @@ export function deleteText(ctx, text, time) {
     }
 
     let deleteChar = (n) => {
-      ctx.innerHTML = '';
-      ctx.innerHTML = text[i].substring(0, n);
+      container.innerHTML = '';
+      container.innerHTML = text[i].substring(0, n);
     }
 
     let deleteWords = () => {
@@ -91,42 +106,13 @@ export function deleteText(ctx, text, time) {
   });
 }
 
-export function pauseBetween() {
+/**
+ * Set pause duration specified in the param
+ * @param { number } time, default 2000ms
+ * @returns { Promise }
+ */
+export function pauseBetween(time = 2000) {
   return new Promise((resolve, reject) => {
-    setTimeout(() => { resolve() }, 2000);
+    setTimeout(() => { resolve() }, time);
   });
-}
-
-export function dragAndDrop(element, event) {
-  const coords = getCoords(element);
-  const shiftX = event.pageX - coords.left;
-  const shiftY = event.pageY - coords.top;
-
-  moveAt(event);
-
-  document.onmousemove = function(e) {
-    moveAt(e);
-  };
-
-  element.onmouseup = function() {
-    document.onmousemove = null;
-    element.onmouseup = null;
-  };
-
-  function getCoords(elem) {
-    const box = elem.getBoundingClientRect();
-    return {
-      top: box.top + pageYOffset,
-      left: box.left + pageXOffset
-    };
-  }
-
-  function moveAt(event) {
-    element.style.left = event.pageX - shiftX + 'px';
-    element.style.top = event.pageY - shiftY + 'px';
-  }
-
-  element.ondragstart = function() {
-    return false;
-  };
 }

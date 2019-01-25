@@ -4,9 +4,6 @@ export function getDOM () {
   return {
     body: document.getElementById('body'),
     main: document.getElementById('main'),
-    preloader : document.querySelector('.preloader'),
-    preloadIcon : document.querySelector('.preload-icon'),
-    preloaderCtx : document.querySelector('.preloader-ctx'),
     navTrigger : document.querySelector('.nav-trigger'),
     navLinks : document.querySelectorAll('.nav-link'),
     dataTimeEl: document.querySelector('.data-time'),
@@ -23,5 +20,13 @@ export function getDOM () {
     messengerMessage: document.querySelector('.messenger-message-body'),
     messengerInput: document.getElementById('messenger'),
     messengerBtn: document.querySelector('.messenger-send-btn')
+  }
+}
+
+export function getPreloaderDOM () {
+  return {
+    preloader : document.querySelector('.preloader'),
+    preloadIcon : document.querySelector('.preload-icon'),
+    preloaderCtx : document.querySelector('.preloader-ctx')
   }
 }

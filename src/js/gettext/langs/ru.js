@@ -1,21 +1,4 @@
 export const ru = {
-  "preloader" : {
-    "success preload" : {
-      "0" : "[ OK ] Begin initializing scripts...",
-      "1" : "[ OK ] Start processes ",
-      "2" : "[ OK ] Downloading resources ",
-      "3" : "[ OK ] Build |> Run... "
-    },
-    "error preload" : {
-      "0" : "[ ERROR ] ..."
-    },
-    "crash preload" : {
-      "0" : "[ CRASH ] ..."
-    },
-    "goodcrash preload" : {
-      "0" : "[ GOODCRASH ] ..."
-    }
-  },
   "home": "Главная",
   "my-games": "Мои игры",
   "about-me": "Обо мне",
